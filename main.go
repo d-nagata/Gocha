@@ -47,13 +47,6 @@ func realMain() error {
 	if err != nil {
 		return err
 	}
-	// err = db.Ping()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// } else {
-	// 	log.Println("データベース接続完了")
-	// }
-	// return err
 	mux := router.NewRouter(db)
 	http.ListenAndServe(port, mux)
 	return nil

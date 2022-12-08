@@ -24,6 +24,10 @@ func (h *ResultHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/result.html"))
 
 	request := &model.ResultRequest{}
+	if request.Size == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	query := r.URL.Query()
 	request.Size, _ = strconv.ParseInt(query.Get("size"), 10, 64)
 
@@ -33,11 +37,8 @@ func (h *ResultHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	response := model.ResultResponse{Result: result}
-	// if err := json.NewEncoder(w).Encode(response); err != nil {
-	// 	log.Println(err)
-	// 	return
-	// }
 	if err := t.ExecuteTemplate(w, "result.html", response); err != nil {
 		log.Fatal(err)
+		return
 	}
 }

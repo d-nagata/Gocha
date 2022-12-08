@@ -28,7 +28,6 @@ func (s *ResultService) GetResult(ctx context.Context, size int64) ([]string, er
 	var err error
 
 	str := fmt.Sprintf(getFmt, strings.Repeat(" ,?", int(size-1)))
-
 	var ids_arg = []interface{}{}
 
 	var i int64
