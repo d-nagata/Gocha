@@ -11,6 +11,7 @@ import (
 func NewRouter(db *sql.DB) *mux.Router {
 	// register routes
 	mux := mux.NewRouter()
+	mux.HandleFunc("/", handler.NewTopHandler().ServeHTTP)
 	mux.HandleFunc("/healthz", handler.NewHealthzHandler().ServeHTTP)
 	mux.HandleFunc("/result", handler.NewResultHandler(service.NewResultService(db)).ServeHTTP)
 	//mux.HandleFunc("/user", handler.NewUserHandler(service.NewUserService(db)).ServeHTTP)
