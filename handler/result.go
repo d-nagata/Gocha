@@ -24,12 +24,14 @@ func (h *ResultHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/result.html"))
 
 	request := &model.ResultRequest{}
+
+	query := r.URL.Query()
+	request.Size, _ = strconv.ParseInt(query.Get("size"), 10, 64)
+
 	if request.Size == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	query := r.URL.Query()
-	request.Size, _ = strconv.ParseInt(query.Get("size"), 10, 64)
 
 	result, err := h.svc.GetResult(r.Context(), request.Size)
 	if err != nil {
